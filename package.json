@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mantine/hooks": "^7.12.2",
+    "@radix-ui/react-slot": "^1.1.0",
     "chroma-js": "^3.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -25,6 +26,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "daisyui": "^4.12.10",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "postcss": "^8.4.47",
