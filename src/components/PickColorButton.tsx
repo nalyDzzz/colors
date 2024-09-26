@@ -15,7 +15,7 @@ export default function PickColorButton() {
     <>
       <Dialog open={dialogOpen} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="w-full text-primary-content font-bold py-2 px-4 rounded">
+          <Button className="w-32 text-primary-content font-bold py-2 px-4 rounded">
             Pick a Color
           </Button>
         </DialogTrigger>

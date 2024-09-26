@@ -1,39 +1,52 @@
 import chroma from 'chroma-js';
 
-const LIGHTNESS_MAP = [
-  0.96, 0.907, 0.805, 0.697, 0.605, 0.547, 0.518, 0.445, 0.395, 0.34, 0.29,
-];
-const SATURATION_MAP = [
-  0.32, 0.16, 0.08, 0.04, 0, 0, 0.04, 0.08, 0.16, 0.32, 0.32,
-];
+export const getPalette = (color: string, baseColor = 500) => {
+  const { scaleColors, domainParams } = getColorParams(color, baseColor);
+  const colors = chroma
+    .scale(scaleColors)
+    .mode('hsl')
+    .domain(domainParams)
+    .colors(11);
 
-function getClosestLightness(colorObject: chroma.Color) {
-  const lightnessGoal = colorObject.get('hsl.l');
-  return LIGHTNESS_MAP.reduce((prev, curr) =>
-    Math.abs(curr - lightnessGoal) < Math.abs(prev - lightnessGoal)
-      ? curr
-      : prev
-  );
-}
+  return colors;
+};
 
-export function generatePalette(color: string) {
-  const colorObject = chroma(color);
-  const closestLightness = getClosestLightness(colorObject);
-  const baseColorIndex = LIGHTNESS_MAP.findIndex((l) => l === closestLightness);
-
-  const colors = LIGHTNESS_MAP.map((l) => colorObject.set('hsl.l', l))
-    .map((c) => chroma(c))
-    .map((c, i) => {
-      const saturationDelta =
-        SATURATION_MAP[i] - SATURATION_MAP[baseColorIndex];
-      return saturationDelta >= 0
-        ? c.saturate(saturationDelta)
-        : c.desaturate(saturationDelta * -1);
-    });
-  return { baseColorIndex, colors };
-}
-
-// function generateTailwindConfig(color: string) {
-//   const { colors } = generatePalette(color);
-//   // Tailwind config here
-// }
+const getColorParams = (color: string, baseColor: number) => {
+  const defaultScale = [
+    chroma(color).set('hsl.l', 0.95),
+    color,
+    chroma(color).set('hsl.l', 0.09),
+  ];
+  switch (baseColor) {
+    case 50:
+      return {
+        scaleColors: [color, chroma(color).set('hsl.l', 0.09)],
+        domainParams: [0, 1],
+      };
+    case 100:
+      return { scaleColors: defaultScale, domainParams: [0, 0.1, 1] };
+    case 200:
+      return { scaleColors: defaultScale, domainParams: [0, 0.2, 1] };
+    case 300:
+      return { scaleColors: defaultScale, domainParams: [0, 0.3, 1] };
+    case 400:
+      return { scaleColors: defaultScale, domainParams: [0, 0.4, 1] };
+    case 500:
+      return { scaleColors: defaultScale, domainParams: [0, 0.5, 1] };
+    case 600:
+      return { scaleColors: defaultScale, domainParams: [0, 0.6, 1] };
+    case 700:
+      return { scaleColors: defaultScale, domainParams: [0, 0.7, 1] };
+    case 800:
+      return { scaleColors: defaultScale, domainParams: [0, 0.8, 1] };
+    case 900:
+      return { scaleColors: defaultScale, domainParams: [0, 0.9, 1] };
+    case 950:
+      return {
+        scaleColors: [chroma(color).set('hsl.l', 0.95), color],
+        domainParams: [0, 1],
+      };
+    default:
+      return { scaleColors: defaultScale, domainParams: [0, 0.5, 1] };
+  }
+};
