@@ -17,7 +17,7 @@ export default function ColorPicker() {
           below to capture it!
         </p>
         <PickColorButton />
-        <div className="w-3/4 pt-5 grid md:grid-cols-3 justify-items-center items-center justify-center gap-4">
+        <div className="mt-5">
           <SelectedColor />
         </div>
         <ColorShades />
