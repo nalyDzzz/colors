@@ -6,7 +6,7 @@ import React from 'react';
 
 export default function ColorPicker() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 container mx-auto">
+    <div className="min-h-screen flex flex-col items-center justify-start pt-20 p-4 container mx-auto">
       <h1 className="text-4xl font-bold mb-6 text-center">
         Select a Color and Generate a Tailwind Palette
       </h1>
@@ -17,7 +17,7 @@ export default function ColorPicker() {
           below to capture it!
         </p>
         <PickColorButton />
-        <div className="mt-6 flex items-center justify-between">
+        <div className="w-3/4 pt-5 grid md:grid-cols-3 justify-items-center items-center justify-center gap-4">
           <SelectedColor />
         </div>
         <ColorShades />
@@ -25,7 +25,7 @@ export default function ColorPicker() {
           variant="secondary"
           className="w-fit mt-6 text-secondary-content font-bold py-2 px-4 rounded"
         >
-          Generate Tailwind Config
+          Export
         </Button>
       </div>
     </div>

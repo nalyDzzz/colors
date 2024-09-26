@@ -66,7 +66,10 @@ const ScreenTabContent = ({ dialogOpen, setOpen }: ScreenTabProps) => {
           Click on the below button to get started!
         </p>
         {supported && (
-          <Button className="w-40 text-primary-content" onClick={pickColor}>
+          <Button
+            className="w-40 text-primary-content rounded"
+            onClick={pickColor}
+          >
             Select
           </Button>
         )}
