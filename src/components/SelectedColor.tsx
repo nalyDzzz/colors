@@ -9,7 +9,7 @@ import {
 import { useColorContext } from '@/app/colors/providers';
 
 export default function SelectedColor() {
-  const { color } = useColorContext();
+  const { changeBase, color } = useColorContext();
   return (
     <>
       <span className="text-base-content text-nowrap">
@@ -19,7 +19,7 @@ export default function SelectedColor() {
         className="w-16 h-16 border rounded-lg"
         style={{ backgroundColor: color }}
       ></div>
-      <Select defaultValue="500">
+      <Select defaultValue="500" onValueChange={changeBase}>
         <SelectTrigger className="w-40">
           <SelectValue placeholder="Base" />
         </SelectTrigger>
