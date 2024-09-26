@@ -1,11 +1,12 @@
 'use client';
 import { useColorContext } from '@/app/colors/providers';
 import { getPalette } from '@/lib/colorsgenerator';
+import chroma from 'chroma-js';
 import React from 'react';
 
 export default function ColorShades() {
   const { color } = useColorContext();
-  if (color === '') {
+  if (color === '' || !chroma.valid(color)) {
     return null;
   }
 

@@ -1,94 +1,71 @@
 'use client';
-import React, { useState } from 'react';
-import { Button } from './ui/button';
+import React, { useEffect, useState } from 'react';
 import { useEyeDropper } from '@mantine/hooks';
+import { FaEyeDropper } from 'react-icons/fa';
 import { useColorContext } from '@/app/colors/providers';
-import { Dialog, DialogContent, DialogHeader } from './ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-import { DialogTrigger } from '@radix-ui/react-dialog';
+import chroma from 'chroma-js';
 
 export default function PickColorButton() {
-  const [dialogOpen, setOpen] = useState(false);
-
-  return (
-    <>
-      <Dialog open={dialogOpen} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button className="w-32 text-primary-content font-bold py-2 px-4 rounded">
-            Pick a Color
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="min-h-60">
-          <DialogHeader></DialogHeader>
-          <Tabs defaultValue="screen">
-            <TabsList className="grid grid-cols-2">
-              <TabsTrigger value="screen">From Screen</TabsTrigger>
-              <TabsTrigger value="manual">Select Manually</TabsTrigger>
-            </TabsList>
-            <ScreenTabContent dialogOpen={dialogOpen} setOpen={setOpen} />
-            <ManualTabContent />
-          </Tabs>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
-}
-
-type ScreenTabProps = {
-  dialogOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const ScreenTabContent = ({ dialogOpen, setOpen }: ScreenTabProps) => {
+  const { color, changeColor } = useColorContext();
   const { supported, open } = useEyeDropper();
-  const { changeColor } = useColorContext();
-  const [error, setError] = useState<Error | null>(null);
+  const [input, setInput] = useState('#');
 
   const pickColor = async () => {
     try {
       const { sRGBHex } = (await open())!;
-      changeColor(sRGBHex);
-      setOpen(false);
+      setInput(sRGBHex);
     } catch (e) {
-      if ((e as Error).message.includes('user canceled')) {
-        return setError(new Error('No color was selected, user canceled.'));
-      } else {
-        return setError(new Error('Something went wrong! Try again later!'));
-      }
+      console.log(e);
+      return;
     }
   };
 
-  return (
-    <TabsContent value="screen">
-      <div className="flex justify-center gap-5 items-center flex-col">
-        <p className="text-base-content/80">
-          Click on the below button to get started!
-        </p>
-        {supported && (
-          <Button
-            className="w-40 text-primary-content rounded"
-            onClick={pickColor}
-          >
-            Select
-          </Button>
-        )}
-        {!supported && (
-          <Button
-            disabled
-            className="w-40 text-primary-content cursor-not-allowed"
-          >
-            Not available on your device
-          </Button>
-        )}
-        {error?.message}
-      </div>
-    </TabsContent>
-  );
-};
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value[1] === '#') {
+      const newValue = e.target.value.slice(1);
+      return setInput(newValue);
+    }
+    if (e.target.value[0] !== '#') {
+      const newValue = '#' + e.target.value;
+      return setInput(newValue);
+    }
+    setInput(e.target.value);
+  };
 
-const ManualTabContent = () => {
+  useEffect(() => {
+    if (chroma.valid(input)) {
+      changeColor(input);
+    }
+  }, [input, changeColor]);
+
   return (
-    <TabsContent value="manual">This is for typing in manually</TabsContent>
+    <div className="relative flex items-center h-10 md:w-96 rounded-md border border-base-content bg-base-100 ring-offset-base-100 inset-0 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-base-content placeholder:text-base-content/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+      <label
+        className="absolute ml-1 w-7 h-7 rounded-3xl shadow-lg cursor-pointer"
+        style={{ backgroundColor: color === '' ? 'gray' : color }}
+      >
+        <input
+          type="color"
+          value={color}
+          onChange={handleChange}
+          className="opacity-0 absolute inset-0 cursor-pointer"
+        />
+      </label>
+      <input
+        type="text"
+        placeholder="#"
+        value={input}
+        onChange={handleChange}
+        maxLength={8}
+        className="pl-10 bg-transparent w-full h-full placeholder:text-base-content/75"
+      />
+      <button
+        className="absolute right-2 hover:bg-white/20 p-1 enabled:active:scale-90 disabled:pointer-events-none disabled:opacity-50"
+        onClick={pickColor}
+        disabled={!supported}
+      >
+        <FaEyeDropper />
+      </button>
+    </div>
   );
-};
+}
