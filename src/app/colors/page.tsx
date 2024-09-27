@@ -1,7 +1,7 @@
 import ColorShades from '@/components/ColorShades';
+import Export from '@/components/Export';
 import PickColorButton from '@/components/PickColorButton';
 import SelectedColor from '@/components/SelectedColor';
-import { Button } from '@/components/ui/button';
 import React from 'react';
 
 export default function ColorPicker() {
@@ -20,9 +20,7 @@ export default function ColorPicker() {
           <SelectedColor />
         </div>
         <ColorShades />
-        <Button className="w-fit mt-6 font-bold py-2 px-4 rounded">
-          Export
-        </Button>
+        <Export />
       </div>
     </div>
   );

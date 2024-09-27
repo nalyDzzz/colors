@@ -1,6 +1,7 @@
 import chroma from 'chroma-js';
 
 export const getPalette = (color: string, baseColor = 500) => {
+  if (!color || !baseColor) throw new Error('No color or base color included');
   const { scaleColors, domainParams } = getColorParams(color, baseColor);
   const colors = chroma
     .scale(scaleColors)
@@ -12,6 +13,7 @@ export const getPalette = (color: string, baseColor = 500) => {
 };
 
 export const getShadePalette = (color: string, baseColor = 500) => {
+  if (!color || !baseColor) throw new Error('No color or base color included');
   const colors = getPalette(color, baseColor);
   const shadePalette = {
     50: colors[0],
@@ -67,4 +69,27 @@ const getColorParams = (color: string, baseColor: number) => {
     default:
       return { scaleColors: defaultScale, domainParams: [0, 0.5, 1] };
   }
+};
+
+export const generateTailwindConfig = (color: string, baseColor: number) => {
+  if (!color || !baseColor) throw new Error('No color or base color included');
+  const colors = getPalette(color, baseColor);
+
+  return `{
+  colors: {
+    mycolor: {
+      50: "${colors[0]}",
+      100: "${colors[1]}",
+      200: "${colors[2]}",
+      300: "${colors[3]}",
+      400: "${colors[4]}",
+      500: "${colors[5]}",
+      600: "${colors[6]}",
+      700: "${colors[7]}",
+      800: "${colors[8]}",
+      900: "${colors[9]}",
+      950: "${colors[10]}"
+    }
+  }
+}`;
 };

@@ -12,7 +12,7 @@ export const ColorContext = createContext<ColorContextType | null>(null);
 
 export const ColorContextProvider = ({ children }: { children: ReactNode }) => {
   const [color, setColor] = useState('');
-  const [base, setBase] = useState('');
+  const [base, setBase] = useState('500');
 
   const changeBase = (input: string) => {
     setBase(input);
