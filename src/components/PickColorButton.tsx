@@ -39,7 +39,7 @@ export default function PickColorButton() {
   }, [input, changeColor]);
 
   return (
-    <div className="relative flex items-center h-10 md:w-96 rounded-md border border-base-content bg-base-100 ring-offset-base-100 inset-0 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-base-content placeholder:text-base-content/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+    <div className="relative flex items-center h-10 md:w-96 rounded-md border border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
       <label
         className="absolute ml-1 w-7 h-7 rounded-3xl shadow-lg cursor-pointer"
         style={{ backgroundColor: color === '' ? 'gray' : color }}
@@ -48,7 +48,7 @@ export default function PickColorButton() {
           type="color"
           value={color}
           onChange={handleChange}
-          className="opacity-0 absolute inset-0 cursor-pointer"
+          className="opacity-0 absolute w-full inset-0 cursor-pointer"
         />
       </label>
       <input
@@ -57,7 +57,7 @@ export default function PickColorButton() {
         value={input}
         onChange={handleChange}
         maxLength={8}
-        className="pl-10 bg-transparent w-full h-full placeholder:text-base-content/75"
+        className="pl-10 bg-transparent w-full h-full placeholder:text-muted"
       />
       <button
         className="absolute right-2 hover:bg-white/20 p-1 enabled:active:scale-90 disabled:pointer-events-none disabled:opacity-50"
