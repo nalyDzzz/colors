@@ -1,5 +1,5 @@
 'use client';
-
+import { FaCopy } from 'react-icons/fa6';
 import React from 'react';
 import { Button } from './ui/button';
 import {
@@ -17,6 +17,8 @@ import {
   generateTailwindHexConfig,
 } from '@/lib/colorsgenerator';
 import { useColorContext } from '@/app/colors/providers';
+import { useClipboard } from '@mantine/hooks';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Export() {
   return (
@@ -38,10 +40,10 @@ export default function Export() {
               <TabsTrigger value="csshsl">CSS (HSL)</TabsTrigger>
               <TabsTrigger value="cssrgb">CSS (RGB)</TabsTrigger>
             </TabsList>
-            <TailWindTab type="tailwindhex" />
-            <TailWindTab type="csshex" />
-            <TailWindTab type="csshsl" />
-            <TailWindTab type="cssrgb" />
+            <ExportTab type="tailwindhex" />
+            <ExportTab type="csshex" />
+            <ExportTab type="csshsl" />
+            <ExportTab type="cssrgb" />
           </Tabs>
         </DialogContent>
       </Dialog>
@@ -53,7 +55,9 @@ interface TailWindTabProps {
   type: 'tailwindhex' | 'csshex' | 'cssrgb' | 'csshsl';
 }
 
-const TailWindTab: React.FC<TailWindTabProps> = ({ type }) => {
+const ExportTab: React.FC<TailWindTabProps> = ({ type }) => {
+  const { toast } = useToast();
+  const clipboard = useClipboard();
   const { color, base } = useColorContext();
   if (!color || color === '') {
     return null;
@@ -73,9 +77,23 @@ const TailWindTab: React.FC<TailWindTabProps> = ({ type }) => {
       tailwindconfig = generateRgbCss(color, parseInt(base));
       break;
   }
+
+  const handleCopy = (config: string) => {
+    clipboard.copy(config);
+    toast({
+      description: `Copied Configuration`,
+      duration: 1000,
+    });
+  };
   return (
     <TabsContent value={type}>
       <div className="relative">
+        <button
+          className="absolute right-5 top-0 hover:bg-foreground/20 p-1 rounded"
+          onClick={() => handleCopy(tailwindconfig)}
+        >
+          <FaCopy size={'1.5em'} className="text-foreground" />
+        </button>
         <pre>{tailwindconfig}</pre>
       </div>
     </TabsContent>
