@@ -18,9 +18,9 @@ const getPalette = (
       if (mode === 'hex') {
         return c.hex();
       } else if (mode === 'hsl') {
-        return c.hsl();
+        return c.css('hsl');
       } else if (mode === 'rgb') {
-        return c.rgb();
+        return c.css();
       } else {
         return c.hex();
       }
@@ -109,4 +109,58 @@ export const generateTailwindHexConfig = (color: string, baseColor: number) => {
     }
   }
 }`;
+};
+
+export const generateHexCss = (color: string, baseColor: number) => {
+  if (!color || !baseColor) throw new Error('No color or base color included');
+  const colors = getPalette(color, baseColor, 'hex');
+  return `:root {
+    --mycolor50: ${colors[0]}
+    --mycolor100: ${colors[1]}
+    --mycolor200: ${colors[2]}
+    --mycolor300: ${colors[3]}
+    --mycolor400: ${colors[4]}
+    --mycolor500: ${colors[5]}
+    --mycolor600: ${colors[6]}
+    --mycolor700: ${colors[7]}
+    --mycolor800: ${colors[8]}
+    --mycolor900: ${colors[9]}
+    --mycolor950: ${colors[10]}
+  }`;
+};
+
+export const generateHslCss = (color: string, baseColor: number) => {
+  if (!color || !baseColor) throw new Error('No color or base color included');
+  const colors = getPalette(color, baseColor, 'hsl');
+  return `:root {
+    --mycolor50: ${colors[0]}
+    --mycolor100: ${colors[1]}
+    --mycolor200: ${colors[2]}
+    --mycolor300: ${colors[3]}
+    --mycolor400: ${colors[4]}
+    --mycolor500: ${colors[5]}
+    --mycolor600: ${colors[6]}
+    --mycolor700: ${colors[7]}
+    --mycolor800: ${colors[8]}
+    --mycolor900: ${colors[9]}
+    --mycolor950: ${colors[10]}
+  }`;
+};
+
+export const generateRgbCss = (color: string, baseColor: number) => {
+  if (!color || !baseColor) throw new Error('No color or base color included');
+  const colors = getPalette(color, baseColor, 'rgb');
+  return `:root {
+    --mycolor50: ${colors[0]}
+    --mycolor100: ${colors[1]}
+    --mycolor200: ${colors[2]}
+    --mycolor300: ${colors[3]}
+    --mycolor400: ${colors[4]}
+    --mycolor500: ${colors[5]}
+    --mycolor600: ${colors[6]}
+    --mycolor700: ${colors[7]}
+    --mycolor800: ${colors[8]}
+    --mycolor900: ${colors[9]}
+    --mycolor950: ${colors[10]}
+  }`;
 };

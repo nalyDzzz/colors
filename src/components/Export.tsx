@@ -10,7 +10,12 @@ import {
   DialogHeader,
 } from './ui/dialog';
 import { Tabs, TabsTrigger, TabsContent, TabsList } from './ui/tabs';
-import { generateTailwindHexConfig } from '@/lib/colorsgenerator';
+import {
+  generateHexCss,
+  generateHslCss,
+  generateRgbCss,
+  generateTailwindHexConfig,
+} from '@/lib/colorsgenerator';
 import { useColorContext } from '@/app/colors/providers';
 
 export default function Export() {
@@ -27,11 +32,16 @@ export default function Export() {
             <DialogTitle>Choose export type</DialogTitle>
           </DialogHeader>
           <Tabs>
-            <TabsList>
-              <TabsTrigger value="tailwind">Tailwind</TabsTrigger>
-              <TabsTrigger value="css">CSS</TabsTrigger>
+            <TabsList className="grid w-full h-fit grid-cols-2 md:grid-cols-4">
+              <TabsTrigger value="tailwindhex">Tailwind (HEX)</TabsTrigger>
+              <TabsTrigger value="csshex">CSS (HEX)</TabsTrigger>
+              <TabsTrigger value="csshsl">CSS (HSL)</TabsTrigger>
+              <TabsTrigger value="cssrgb">CSS (RGB)</TabsTrigger>
             </TabsList>
-            <TailWindTab />
+            <TailWindTab type="tailwindhex" />
+            <TailWindTab type="csshex" />
+            <TailWindTab type="csshsl" />
+            <TailWindTab type="cssrgb" />
           </Tabs>
         </DialogContent>
       </Dialog>
@@ -39,15 +49,33 @@ export default function Export() {
   );
 }
 
-const TailWindTab = () => {
+interface TailWindTabProps {
+  type: 'tailwindhex' | 'csshex' | 'cssrgb' | 'csshsl';
+}
+
+const TailWindTab: React.FC<TailWindTabProps> = ({ type }) => {
   const { color, base } = useColorContext();
   if (!color || color === '') {
     return null;
   }
-  const tailwindconfig = generateTailwindHexConfig(color, parseInt(base));
+  let tailwindconfig: string;
+  switch (type) {
+    case 'tailwindhex':
+      tailwindconfig = generateTailwindHexConfig(color, parseInt(base));
+      break;
+    case 'csshex':
+      tailwindconfig = generateHexCss(color, parseInt(base));
+      break;
+    case 'csshsl':
+      tailwindconfig = generateHslCss(color, parseInt(base));
+      break;
+    case 'cssrgb':
+      tailwindconfig = generateRgbCss(color, parseInt(base));
+      break;
+  }
   return (
-    <TabsContent value="tailwind">
-      <div>
+    <TabsContent value={type}>
+      <div className="relative">
         <pre>{tailwindconfig}</pre>
       </div>
     </TabsContent>
