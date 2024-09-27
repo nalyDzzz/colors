@@ -1,20 +1,37 @@
 import chroma from 'chroma-js';
 
-export const getPalette = (color: string, baseColor = 500) => {
+type ExportModes = 'hex' | 'hsl' | 'rgb';
+
+const getPalette = (
+  color: string,
+  baseColor = 500,
+  mode: ExportModes = 'hex'
+) => {
   if (!color || !baseColor) throw new Error('No color or base color included');
   const { scaleColors, domainParams } = getColorParams(color, baseColor);
   const colors = chroma
     .scale(scaleColors)
     .mode('hsl')
     .domain(domainParams)
-    .colors(11);
+    .colors(11, null)
+    .map((c) => {
+      if (mode === 'hex') {
+        return c.hex();
+      } else if (mode === 'hsl') {
+        return c.hsl();
+      } else if (mode === 'rgb') {
+        return c.rgb();
+      } else {
+        return c.hex();
+      }
+    });
 
   return colors;
 };
 
 export const getShadePalette = (color: string, baseColor = 500) => {
   if (!color || !baseColor) throw new Error('No color or base color included');
-  const colors = getPalette(color, baseColor);
+  const colors = getPalette(color, baseColor, 'hex');
   const shadePalette = {
     50: colors[0],
     100: colors[1],
@@ -71,9 +88,9 @@ const getColorParams = (color: string, baseColor: number) => {
   }
 };
 
-export const generateTailwindConfig = (color: string, baseColor: number) => {
+export const generateTailwindHexConfig = (color: string, baseColor: number) => {
   if (!color || !baseColor) throw new Error('No color or base color included');
-  const colors = getPalette(color, baseColor);
+  const colors = getPalette(color, baseColor, 'hex');
 
   return `{
   colors: {

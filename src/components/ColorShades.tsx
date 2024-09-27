@@ -27,28 +27,33 @@ export default function ColorShades() {
 
   return (
     <div className="flex gap-2 justify-center align-middle items-center flex-wrap pt-5">
-      {Object.entries(palette).map((el, index) => {
+      {Object.entries(palette).map(([shade, hex], index) => {
+        const backgroundColor =
+          typeof hex === 'string' ? hex : chroma(hex).hex();
         return (
           <div
             key={index}
-            style={{ backgroundColor: el[1] }}
+            style={{ backgroundColor }}
             className={cn(
               'w-20 h-20 rounded flex justify-center items-end relative',
               {
-                'w-24 h-24': color === el[1],
+                'w-24 h-24': color === backgroundColor,
               }
             )}
           >
             <div
               style={{
-                color: parseInt(el[0]) <= 400 ? palette[950] : palette[50],
+                color:
+                  parseInt(shade) <= 400
+                    ? (palette[950] as string)
+                    : (palette[50] as string),
               }}
               className="flex flex-col items-center hover:cursor-pointer"
-              onClick={() => handleCopy(el[1])}
+              onClick={() => handleCopy(backgroundColor)}
             >
-              <p className="font-semibold">{el[0]}</p>
+              <p className="font-semibold">{shade}</p>
               <p className="font-semibold">
-                {el[1].replace('#', '').toUpperCase()}
+                {backgroundColor.replace('#', '').toUpperCase()}
               </p>
             </div>
           </div>

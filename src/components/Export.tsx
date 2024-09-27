@@ -10,7 +10,7 @@ import {
   DialogHeader,
 } from './ui/dialog';
 import { Tabs, TabsTrigger, TabsContent, TabsList } from './ui/tabs';
-import { generateTailwindConfig } from '@/lib/colorsgenerator';
+import { generateTailwindHexConfig } from '@/lib/colorsgenerator';
 import { useColorContext } from '@/app/colors/providers';
 
 export default function Export() {
@@ -44,7 +44,7 @@ const TailWindTab = () => {
   if (!color || color === '') {
     return null;
   }
-  const tailwindconfig = generateTailwindConfig(color, parseInt(base));
+  const tailwindconfig = generateTailwindHexConfig(color, parseInt(base));
   return (
     <TabsContent value="tailwind">
       <div>
