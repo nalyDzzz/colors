@@ -19,8 +19,10 @@ import {
 import { useColorContext } from '@/app/colors/providers';
 import { useClipboard } from '@mantine/hooks';
 import { useToast } from '@/hooks/use-toast';
+import { Input } from './ui/input';
 
 export default function Export() {
+  const { changeName, name } = useColorContext();
   return (
     <>
       <Dialog>
@@ -40,6 +42,16 @@ export default function Export() {
               <TabsTrigger value="csshsl">CSS (HSL)</TabsTrigger>
               <TabsTrigger value="cssrgb">CSS (RGB)</TabsTrigger>
             </TabsList>
+            <div className="flex pt-2 justify-center">
+              <Input
+                className="w-2/4"
+                placeholder="Color Name"
+                onChange={(e) => changeName(e.target.value)}
+                value={name}
+                type="text"
+              />
+            </div>
+
             <ExportTab type="tailwindhex" />
             <ExportTab type="csshex" />
             <ExportTab type="csshsl" />

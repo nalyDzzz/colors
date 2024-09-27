@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useColorContext } from '@/app/colors/providers';
 import chroma from 'chroma-js';
 
 type ExportModes = 'hex' | 'hsl' | 'rgb';
@@ -90,11 +92,13 @@ const getColorParams = (color: string, baseColor: number) => {
 
 export const generateTailwindHexConfig = (color: string, baseColor: number) => {
   if (!color || !baseColor) throw new Error('No color or base color included');
+  let { name } = useColorContext();
+  if (name === '') name = 'mycolor';
   const colors = getPalette(color, baseColor, 'hex');
 
   return `{
   colors: {
-    mycolor: {
+    ${name}: {
       50: "${colors[0]}",
       100: "${colors[1]}",
       200: "${colors[2]}",
@@ -113,54 +117,59 @@ export const generateTailwindHexConfig = (color: string, baseColor: number) => {
 
 export const generateHexCss = (color: string, baseColor: number) => {
   if (!color || !baseColor) throw new Error('No color or base color included');
+  let { name } = useColorContext();
+  if (name === '') name = 'mycolor';
   const colors = getPalette(color, baseColor, 'hex');
   return `:root {
-    --mycolor50: ${colors[0]}
-    --mycolor100: ${colors[1]}
-    --mycolor200: ${colors[2]}
-    --mycolor300: ${colors[3]}
-    --mycolor400: ${colors[4]}
-    --mycolor500: ${colors[5]}
-    --mycolor600: ${colors[6]}
-    --mycolor700: ${colors[7]}
-    --mycolor800: ${colors[8]}
-    --mycolor900: ${colors[9]}
-    --mycolor950: ${colors[10]}
+    --${name}50: ${colors[0]}
+    --${name}100: ${colors[1]}
+    --${name}200: ${colors[2]}
+    --${name}300: ${colors[3]}
+    --${name}400: ${colors[4]}
+    --${name}500: ${colors[5]}
+    --${name}600: ${colors[6]}
+    --${name}700: ${colors[7]}
+    --${name}800: ${colors[8]}
+    --${name}900: ${colors[9]}
+    --${name}950: ${colors[10]}
   }`;
 };
-
 export const generateHslCss = (color: string, baseColor: number) => {
   if (!color || !baseColor) throw new Error('No color or base color included');
+  let { name } = useColorContext();
+  if (name === '') name = 'mycolor';
   const colors = getPalette(color, baseColor, 'hsl');
   return `:root {
-    --mycolor50: ${colors[0]}
-    --mycolor100: ${colors[1]}
-    --mycolor200: ${colors[2]}
-    --mycolor300: ${colors[3]}
-    --mycolor400: ${colors[4]}
-    --mycolor500: ${colors[5]}
-    --mycolor600: ${colors[6]}
-    --mycolor700: ${colors[7]}
-    --mycolor800: ${colors[8]}
-    --mycolor900: ${colors[9]}
-    --mycolor950: ${colors[10]}
+    --${name}50: ${colors[0]}
+    --${name}100: ${colors[1]}
+    --${name}200: ${colors[2]}
+    --${name}300: ${colors[3]}
+    --${name}400: ${colors[4]}
+    --${name}500: ${colors[5]}
+    --${name}600: ${colors[6]}
+    --${name}700: ${colors[7]}
+    --${name}800: ${colors[8]}
+    --${name}900: ${colors[9]}
+    --${name}950: ${colors[10]}
   }`;
 };
 
 export const generateRgbCss = (color: string, baseColor: number) => {
   if (!color || !baseColor) throw new Error('No color or base color included');
+  let { name } = useColorContext();
+  if (name === '') name = 'mycolor';
   const colors = getPalette(color, baseColor, 'rgb');
   return `:root {
-    --mycolor50: ${colors[0]}
-    --mycolor100: ${colors[1]}
-    --mycolor200: ${colors[2]}
-    --mycolor300: ${colors[3]}
-    --mycolor400: ${colors[4]}
-    --mycolor500: ${colors[5]}
-    --mycolor600: ${colors[6]}
-    --mycolor700: ${colors[7]}
-    --mycolor800: ${colors[8]}
-    --mycolor900: ${colors[9]}
-    --mycolor950: ${colors[10]}
+    --${name}50: ${colors[0]}
+    --${name}100: ${colors[1]}
+    --${name}200: ${colors[2]}
+    --${name}300: ${colors[3]}
+    --${name}400: ${colors[4]}
+    --${name}500: ${colors[5]}
+    --${name}600: ${colors[6]}
+    --${name}700: ${colors[7]}
+    --${name}800: ${colors[8]}
+    --${name}900: ${colors[9]}
+    --${name}950: ${colors[10]}
   }`;
 };
