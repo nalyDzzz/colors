@@ -1,0 +1,9 @@
+services:
+  app:
+    container_name: colors
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
