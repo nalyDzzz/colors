@@ -173,3 +173,12 @@ export const generateRgbCss = (color: string, baseColor: number) => {
     --${name}950: ${colors[10]}
   }`;
 };
+
+export const getContrastColor = (color: string) => {
+  if (!color) throw new Error('No color');
+  const darkFont = chroma(color).set('hsl.l', 0.95).hex();
+  const lightFont = chroma(color).set('hsl.l', 0.05).hex();
+  const isDark =
+    chroma.contrast(color, darkFont) > chroma.contrast(color, lightFont);
+  return isDark ? darkFont : lightFont;
+};

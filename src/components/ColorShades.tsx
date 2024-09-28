@@ -1,6 +1,6 @@
 'use client';
 import { useColorContext } from '@/app/colors/providers';
-import { getShadePalette } from '@/lib/colorsgenerator';
+import { getContrastColor, getShadePalette } from '@/lib/colorsgenerator';
 import { cn } from '@/lib/utils';
 import chroma from 'chroma-js';
 import React from 'react';
@@ -43,10 +43,7 @@ export default function ColorShades() {
           >
             <div
               style={{
-                color:
-                  parseInt(shade) <= 400
-                    ? (palette[950] as string)
-                    : (palette[50] as string),
+                color: getContrastColor(hex),
               }}
               className="flex flex-col items-center hover:cursor-pointer"
               onClick={() => handleCopy(backgroundColor)}

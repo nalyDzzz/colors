@@ -1,6 +1,7 @@
 import ColorShades from '@/components/ColorShades';
 import Export from '@/components/Export';
 import PickColorButton from '@/components/PickColorButton';
+import Recents from '@/components/Recents';
 import SelectedColor from '@/components/SelectedColor';
 import React from 'react';
 
@@ -21,6 +22,7 @@ export default function ColorPicker() {
         </div>
         <ColorShades />
         <Export />
+        <Recents />
       </div>
     </div>
   );

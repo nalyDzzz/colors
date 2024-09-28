@@ -17,17 +17,33 @@ import {
   generateTailwindHexConfig,
 } from '@/lib/colorsgenerator';
 import { useColorContext } from '@/app/colors/providers';
-import { useClipboard } from '@mantine/hooks';
+import { useClipboard, useLocalStorage } from '@mantine/hooks';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from './ui/input';
 
 export default function Export() {
-  const { changeName, name } = useColorContext();
+  const { color, changeName, name } = useColorContext();
+  const [value, setValue] = useLocalStorage<string[]>({
+    key: 'colors',
+    defaultValue: [],
+  });
+
+  const addToLocalStorage = () => {
+    if (!color || color === '') return;
+    if (value.length >= 29) {
+      const newValue = value.splice(-1, 1);
+      setValue([color, ...newValue]);
+    }
+    setValue([color, ...value]);
+  };
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="w-fit mt-6 font-bold py-2 px-4 rounded">
+          <Button
+            className="w-fit mt-6 font-bold py-2 px-4 rounded"
+            onClick={addToLocalStorage}
+          >
             Export
           </Button>
         </DialogTrigger>
