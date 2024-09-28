@@ -12,7 +12,6 @@ RUN npm ci
 
 COPY . .
 
-RUN npx prisma db push
 RUN npm run build
 
 FROM base AS runner
