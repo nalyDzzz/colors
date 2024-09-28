@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="hero min-h-screen">
-      <div className="hero-content text-center">
+    <div className="container min-h-screen mx-auto grid place-items-center">
+      <div className="text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">
             Turn Inspiration into a Palette
