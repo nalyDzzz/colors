@@ -2,8 +2,10 @@
 import React from 'react';
 import { useLocalStorage } from '@mantine/hooks';
 import { getContrastColor } from '@/lib/colorsgenerator';
+import { useColorContext } from '@/app/colors/providers';
 
 export default function Recents() {
+  const { changeInput } = useColorContext();
   const [value, , removeValue] = useLocalStorage<string[]>({
     key: 'colors',
   });
@@ -24,8 +26,9 @@ export default function Recents() {
       {value.map((c) => (
         <div
           key={c}
-          className="rounded aspect-square flex items-end justify-center"
+          className="rounded aspect-square flex items-end justify-center hover:cursor-pointer"
           style={{ backgroundColor: c, color: getContrastColor(c) }}
+          onClick={() => changeInput(c)}
         >
           <div className="flex justify-center">
             <p className="font-semibold">{c.replace('#', '').toUpperCase()}</p>

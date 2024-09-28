@@ -8,6 +8,8 @@ export type ColorContextType = {
   changeBase: (input: string) => void;
   name: string;
   changeName: (input: string) => void;
+  input: string;
+  changeInput: (input: string) => void;
 };
 
 export const ColorContext = createContext<ColorContextType | null>(null);
@@ -16,6 +18,7 @@ export const ColorContextProvider = ({ children }: { children: ReactNode }) => {
   const [color, setColor] = useState('');
   const [base, setBase] = useState('500');
   const [name, setName] = useState('');
+  const [input, setInput] = useState('#');
 
   const changeBase = (input: string) => {
     setBase(input);
@@ -31,9 +34,30 @@ export const ColorContextProvider = ({ children }: { children: ReactNode }) => {
     setName(input);
   };
 
+  const changeInput = (input: string) => {
+    if (input[1] === '#') {
+      const newValue = input.slice(1);
+      return setInput(newValue);
+    }
+    if (input[0] !== '#') {
+      const newValue = '#' + input;
+      return setInput(newValue);
+    }
+    setInput(input);
+  };
+
   return (
     <ColorContext.Provider
-      value={{ color, changeColor, base, changeBase, name, changeName }}
+      value={{
+        color,
+        changeColor,
+        base,
+        changeBase,
+        name,
+        changeName,
+        input,
+        changeInput,
+      }}
     >
       {children}
     </ColorContext.Provider>
