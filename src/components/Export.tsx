@@ -32,9 +32,13 @@ export default function Export() {
     if (!color || color === '') return;
     if (value.length >= 29) {
       const newValue = value.splice(-1, 1);
-      setValue([color, ...newValue]);
+      return setValue([color, ...newValue]);
     }
-    setValue([color, ...value]);
+    if (value.includes(color)) {
+      const newValue = value.filter((c) => c !== color);
+      return setValue([color, ...newValue]);
+    }
+    return setValue([color, ...value]);
   };
   return (
     <>
